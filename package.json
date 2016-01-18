@@ -7,23 +7,23 @@
     "node": "0.10.x"
   },
   "dependencies": {
-    "socketstream": "0.3.10",
-    "ss-jade": "0.1.x",
-    "ss-stylus": "0.1.x",
-    "ss-hogan": "0.1.x",
-    "request": "^2.34.0",
-    "lamassu-config": "~0.4.0",
     "async": "~0.2.10",
-    "lodash": "~2.4.1",
-    "yargs": "^1.2.1",
     "ip": "^0.3.0",
-    "lamassu-coindesk":         "git+https://github.com/coinme-engineering/lamassu-coindesk.git#v0.2.0",
-    "lamassu-bitcoinaverage":   "git+https://github.com/coinme-engineering/lamassu-bitcoinaverage.git#v0.2.0",
-    "lamassu-bitstamp":         "git+https://github.com/coinme-engineering/lamassu-bitstamp.git#v0.2.0",
-    "lamassu-bitpay":           "git+https://github.com/coinme-engineering/lamassu-bitpay.git#v0.3.0"
+    "lamassu-bitcoinaverage": "git+https://github.com/coinme-engineering/lamassu-bitcoinaverage.git#v0.2.0",
+    "lamassu-bitpay": "git+https://github.com/coinme-engineering/lamassu-bitpay.git#v0.3.0",
+    "lamassu-bitstamp": "git+https://github.com/coinme-engineering/lamassu-bitstamp.git#v0.2.0",
+    "lamassu-coindesk": "git+https://github.com/coinme-engineering/lamassu-coindesk.git#v0.2.0",
+    "lamassu-config": "~0.4.0",
+    "lodash": "~2.4.1",
+    "minimist": "^1.2.0",
+    "request": "^2.34.0",
+    "socketstream": "0.3.10",
+    "ss-hogan": "0.1.x",
+    "ss-jade": "0.1.x",
+    "ss-stylus": "0.1.x"
   },
   "scripts": {
-    "start": "node app.js",
+    "start": "node app.js --http",
     "test": "mocha --recursive test"
   },
   "devDependencies": {
