@@ -17,10 +17,10 @@
     "lodash": "~2.4.1",
     "yargs": "^1.2.1",
     "ip": "^0.3.0",
-    "lamassu-coindesk": "~0.2.0",
-    "lamassu-bitcoinaverage": "~0.2.0",
-    "lamassu-bitstamp": "~0.2.0",
-    "lamassu-bitpay": "~0.3.0"
+    "lamassu-coindesk":         "git+https://github.com/coinme-engineering/lamassu-coindesk.git#v0.2.0",
+    "lamassu-bitcoinaverage":   "git+https://github.com/coinme-engineering/lamassu-bitcoinaverage.git#v0.2.0",
+    "lamassu-bitstamp":         "git+https://github.com/coinme-engineering/lamassu-bitstamp.git#v0.2.0",
+    "lamassu-bitpay":           "git+https://github.com/coinme-engineering/lamassu-bitpay.git#v0.3.0"
   },
   "scripts": {
     "start": "node app.js",
