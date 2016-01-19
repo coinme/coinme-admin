@@ -50,17 +50,3 @@ all required API keys.
 Next, to deploy `lamassu-server` you need to grab `DATABASE_URL` for the Postgres
 database our deployment script created.
 
-```sh
-db=$(heroku config:get DATABASE_URL)
-```
-
-Then, go to `lamassu-server` and deploy it:
-
-```sh
-DATABASE_URL="$db" ./deploy.sh
-```
-
-You need to pass `DATABASE_URL` to it since both `lamassu-admin` and `lamassu-server`
-use the same database.
-
-Both applications should be deployed and running.
