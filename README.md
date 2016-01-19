@@ -5,8 +5,8 @@ Lamassu admin server. First part of Lamassu stack you need to install.
 ## Installation
 
 ```sh
-git clone git@github.com:lamassu/lamassu-admin.git
-cd lamassu-admin
+git clone git@github.com:coinme-engineering/coinme-admin.git
+cd coinme-admin
 npm install
 ```
 
@@ -33,48 +33,15 @@ time.
 ## Running
 
 ```sh
-node app.js
+npm start
 ```
 
-Then, [open it](http://localhost:8081).
+Then, [open it](http://localhost:3000).
 
 ## Deployment
 
-### Heroku
-Both `lamassu-admin` and [`lamassu-server`](https://github.com/lamassu/lamassu-server)
-are deployable to Heroku.
-
-First, you need to get a [Heroku](https://heroku.com) account and install the
-Heroku toolkit.
-
-### The easy way
-`deploy-all.sh` is an easy installation and deployment script. You can run it
-standalone, without cloning `lamassu-admin`. It'll clone both repositories to
-your current working directory and deploy them to Heroku:
-
 ```sh
-mkdir lamassu
-curl https://raw.github.com/lamassu/lamassu-admin/master/deploy-all.sh > deploy-all.sh
-chmod +x deploy-all.sh
-./deploy-all.sh
-```
-
-You can deploy updates to your applications by rerunning `deploy-all.sh`.
-
-### A bit harder way
-You can also clone and deploy each app individually. To do that, clone both
-`lamassu-admin` and `lamassu-server`.
-
-```sh
-git clone https://github.com/lamassu/lamassu-admin.git
-git clone https://github.com/lamassu/lamassu-server.git
-```
-
-Next, deploy `lamassu-admin`:
-
-```sh
-cd lamassu-admin
-./deploy.sh
+npm run deploy
 ```
 
 Visit the deployed application to configure your Lamassu ATM. Make sure to input

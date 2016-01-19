@@ -50,7 +50,7 @@ if (argv.http) {
   //server = https.createServer(options, ss.http.middleware);
 }
 
-server.listen(3000);
+server.listen(8081);
 
 //ss.http.middleware.append(secureHeaders({ https: !argv.http }));
 
