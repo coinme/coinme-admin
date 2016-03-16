@@ -25,14 +25,15 @@ COPY user_config (id, type, data) FROM stdin;
     },\
     "plugins" : {\
       "current": {\
-        "ticker": "bitpay",\
-        "trade": "bitstamp",\
-        "transfer": "blockchain"\
+        "ticker": "coinbase",\
+        "trade": "coinbase",\
+        "transfer": "coinbase"\
       },\
       "settings": {\
         "bitpay": {},\
         "bitstamp": {"currency": "USD", "key": "test", "secret": "test", "clientId": "test" },\
-        "blockchain" : {}\
+        "blockchain" : {},\
+        "coinbase" : {}\
       }\
     }\
   }\
@@ -115,7 +116,8 @@ CREATE TABLE devices (
   id serial PRIMARY KEY,
   fingerprint text NOT NULL UNIQUE,
   name text,
-  authorized boolean
+  authorized boolean,
+  unpair boolean NOT NULL DEFAULT false
 );
 
 CREATE TABLE pairing_tokens (
@@ -123,19 +125,54 @@ CREATE TABLE pairing_tokens (
   token text,
   created timestamp NOT NULL DEFAULT now()
 );
+CREATE TYPE transaction_stage AS ENUM (
+    'initial_request',
+    'partial_request',
+    'final_request',
+    'partial_send',
+    'deposit',
+    'dispense_request',
+    'dispense'
+);
+CREATE TYPE transaction_authority AS ENUM (
+    'timeout',
+    'machine',
+    'pending',
+    'rejected',
+    'published',
+    'authorized',
+    'confirmed'
+);
 
 CREATE TABLE transactions (
-  id uuid PRIMARY KEY,
-  status text NOT NULL,
-  txHash text,
-  deviceFingerprint text,
-  toAddress text NOT NULL,
-  satoshis integer,
-  currencyCode text,
-  fiat decimal,
-  error text,
-  created timestamp NOT NULL DEFAULT now(),
-  completed timestamp
+    id serial PRIMARY KEY,
+    session_id uuid,
+    device_fingerprint text,
+    to_address text NOT NULL,
+    satoshis integer NOT NULL DEFAULT 0,
+    fiat integer NOT NULL DEFAULT 0,
+    currency_code text NOT NULL,
+    fee integer NOT NULL DEFAULT 0,
+    incoming boolean NOT NULL,
+    stage transaction_stage NOT NULL,
+    authority transaction_authority NOT NULL,
+    tx_hash text,
+    error text,
+    created timestamp NOT NULL DEFAULT now(),
+    UNIQUE (session_id, to_address, stage, authority)
+);
+
+CREATE INDEX ON transactions (session_id);
+CREATE TABLE bills (
+    id uuid PRIMARY KEY,
+    device_fingerprint text,
+    denomination integer NOT NULL,
+    currency_code text NOT NULL,
+    satoshis integer NOT NULL,
+    to_address text NOT NULL,
+    session_id uuid,
+    device_time bigint NOT NULL,
+    created timestamp NOT NULL DEFAULT now()
 );
 
 -- Name: users; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
@@ -145,3 +182,30 @@ CREATE TABLE users (
   salt text NOT NULL,
   pwdHash text NOT NULL
 );
+
+CREATE TABLE pending_transactions (
+    id serial PRIMARY KEY,
+    device_fingerprint text NOT NULL,
+    session_id uuid UNIQUE,
+    incoming boolean NOT NULL,
+    currency_code text NOT NULL,
+    to_address text NOT NULL,
+    satoshis integer NOT NULL,
+    updated timestamp NOT NULL DEFAULT now()
+);
+
+CREATE TABLE dispenses (
+    id serial PRIMARY KEY,
+    device_fingerprint text NOT NULL,
+    transaction_id integer UNIQUE REFERENCES transactions(id),
+    dispense1 integer NOT NULL,
+    reject1 integer NOT NULL,
+    count1 integer NOT NULL,
+    dispense2 integer NOT NULL,
+    reject2 integer NOT NULL,
+    count2 integer NOT NULL,
+    refill boolean NOT NULL,
+    error text,
+    created timestamp NOT NULL DEFAULT now()
+);
+CREATE INDEX ON dispenses (device_fingerprint);
